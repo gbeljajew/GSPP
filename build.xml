@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="clean" >
+
+	<!-- ================================= 
+          target: init              
+         ================================= -->
+    <target name="init" depends="" description="init some variables and create temp folder.">
+    	
+        <property name="temp" value="${basedir}/temp" />
+    	
+    	<!-- TODO if you want to change name of jarfile do it here. -->
+    	<property name="result" value="${basedir}/GSPP.jar"/>
+    	
+    	<!-- TODO if you have some change this accordently -->
+    	<path id="class_path">
+			<pathelement location="${temp}/**/" />
+
+			<fileset dir="${basedir}">
+				<include name="*.jar" />
+			</fileset>
+		</path>
+
+		<property name="classpath" refid="class_path" />
+    	
+    	<delete dir="${temp}" />
+
+    	<mkdir dir="${temp}"/>
+    	
+    </target>
+
+	
+	<!-- ================================= 
+          target: comp              
+         ================================= -->
+    <target name="comp" depends="init" description="compile all code.">
+    	<javac destdir="${temp}" 
+    		srcdir="${basedir}/src"
+    		target="1.7" 
+    		source="1.7" 
+    		debug="true" 
+    		debuglevel="lines,source" 
+    		deprecation="false" 
+    		optimize="true" 
+    		failonerror="true" 
+    		fork="true" >
+    		
+    		<classpath path="${classpath}" />
+    		
+    	</javac>
+    </target>
+	
+	<!-- ================================= 
+          target: unjar              
+         ================================= -->
+    <target name="unjar" depends="comp" description="TODO: if you need to include some jars.">
+        <!-- if you want to include content of some jars into yours (make sure you are allowed to do this with this jar)
+        just remoove comment around unjar task -->
+    	
+    	<!-- <unjar src="PATH_TO_JARFILE" dest="${temp}"></unjar> -->
+    </target>
+
+
+	
+	<!-- ================================= 
+          target: copy              
+         ================================= -->
+    <target name="copy" depends="init,comp,unjar" description="copy locale and sprites.">
+    	<copy todir="${temp}">
+    		<fileset dir="${basedir}/src/">
+				<include name="game/local/*.*"/>
+    			<include name="graphic/**/*.*"/>
+			</fileset>
+		</copy>
+    </target>
+
+	<!-- ================================= 
+          target: jar              
+         ================================= -->
+    <target name="jar" depends="comp,copy" description="make jar file.">
+        <jar destfile="${result}" >
+        
+        	<fileset dir="${temp}" defaultexcludes="true">
+            	<include name="game/**/*.*"/>
+            	<include name="graphic/**/*.*"/>
+            </fileset>
+			
+			<manifest>
+				<attribute name="Permissions" value="all-permissions"/>
+				<attribute name="Trusted-Library" value="true"/>
+				<attribute name="Main-Class" value="game.GameStart"/>
+			</manifest>
+        </jar>
+    </target>
+
+	<!-- ================================= 
+          target: clean              
+         ================================= -->
+    <target name="clean" depends="jar" description="Clean temporary stuff.">
+        <delete dir="${temp}" />
+    </target>
+
+
+</project>
