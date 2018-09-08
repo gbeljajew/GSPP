@@ -50,7 +50,7 @@ public class GameConstants
     
     public static final String ICON_IMAGE_PATH = "/graphic/GameSeedIcon.png";
     
-    private static final String SAVE_FILE_NAME = "score.dat";
+    private static final String SAVE_FILE_NAME = "/score.dat";
     
     
     
