@@ -14,4 +14,4 @@ build script for ant.
 3. There are two types of markers: "TODO" and "OPTIONAL". TODO marks places for you to put your code in. OPTIONAL are parts of code where you can add some optional changes like how highscore is sorted and represented, screen size, fullscreen...
 4. Put sprites in graphic folder.
 5. Change values in MyBundle_XX.properties
-6. use build.xml to build your game.
+6. use build.xml to build your game. without it your graphic will not go into .jar file.
